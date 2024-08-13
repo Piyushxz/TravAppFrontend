@@ -1,8 +1,6 @@
-<<<<<<< HEAD
-=======
 
-import './App.css';
->>>>>>> 7dc9dceb (Initial Commit)
+
+
 
 import './App.css';
 import { Route,Routes } from 'react-router-dom';
@@ -14,7 +12,7 @@ import { Wishlist } from './pages/Wishlist/Wishlist';
 import { Payment } from './pages/Payment/Payment';
 function App() {
   return (
-<<<<<<< HEAD
+
     <>
     <Routes>
       <Route path='/' element = {<Home/>} />
@@ -27,12 +25,7 @@ function App() {
    
     </>
   )
-=======
-    <div className="App">
-      HEy
-    </div>
-  );
->>>>>>> 7dc9dceb (Initial Commit)
+
 }
 
 export default App;
