@@ -1,43 +1,46 @@
-
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
-import {Navbar} from "../Navbar/Navbar"
+import { useParams } from "react-router-dom";
+import { Navbar } from "../Navbar/Navbar";
 import { HotelImages } from "../HotelImages/HotelImages";
-import {HotelDetails} from "../HotelDetails/HotelDetails"
-import "./SingleHotel.css"
+import { HotelDetails } from "../HotelDetails/HotelDetails";
 import { FinalPrice } from "../FinalPrice/FinalPrice";
-export const SingleHotel = ()=>{
 
-    const {id} = useParams();
-    const [singleHotel,setSingleHotel] = useState({})
+export const SingleHotel = () => {
+  const { id } = useParams();
+  const [singleHotel, setSingleHotel] = useState({});
 
-    useEffect(()=>{
-        (async ()=>{
-            try{
-                const {data} = await axios.get(`https://travelapp-backend-cdeh.onrender.com/api/hotels/${id}`)
-                console.log(data)
-                setSingleHotel(data)
-                
-            }
-            catch(err){
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.get(`https://travelapp-backend-cdeh.onrender.com/api/hotels/${id}`);
+        setSingleHotel(data);
+      } catch (err) {
+        console.error(err);
+      }
+    })();
+  }, [id]);
 
-            }
-        })()
-    },[id])
-    const {city,state} = singleHotel
-    return (
-        <>
-          <Navbar/>
-          <main className="single-hotel-page">
-            <p className="hotel-name-address">{city},{state}</p>
-            <HotelImages singleHotel={singleHotel}/>
-            <div className="d-flex">
-                <HotelDetails singleHotel={singleHotel}/>
-                <FinalPrice singleHotel={singleHotel}/>
-            </div>
-          </main>
-        </>
-      
-    )
-}
+  const { city, state } = singleHotel;
+
+  return (
+    <>
+      <Navbar />
+      <main className="single-hotel-page p-4 md:p-8">
+        <p className="hotel-name-address text-xl md:text-2xl pb-2">
+          {city}, {state}
+        </p>
+        <HotelImages singleHotel={singleHotel} />
+        <div className="w-full flex flex-col md:flex-row gap-6 mt-6">
+          {/* Added gap and adjusted layout */}
+          <div className="flex-grow md:w-2/3"> {/* Flex-grow for HotelDetails */}
+            <HotelDetails singleHotel={singleHotel} />
+          </div>
+          <div className="md:w-1/3"> {/* Fixed width for FinalPrice */}
+            <FinalPrice singleHotel={singleHotel} />
+          </div>
+        </div>
+      </main>
+    </>
+  );
+};

@@ -2,8 +2,10 @@
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons+Outlined");
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
-@import url("./components/Navbar/Navbar.css");
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 :root {
   --background-color: #fafafa;
   --primary-color: #ff6525;

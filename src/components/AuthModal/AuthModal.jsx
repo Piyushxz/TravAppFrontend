@@ -1,47 +1,57 @@
 import { AuthLogin } from "../Auth/AuthLogin";
 import { AuthSignUp } from "../Auth/AuthSignUp";
-import "./AuthModal.css"
 import { useAuth } from "../../context/auth-context";
 
-export const AuthModal =  () =>{
-    const {authDispatch,selectedTab} = useAuth()
-    const handleLoginClick = ()=>{
-        authDispatch(
-            {
-                type:"SET_TO_LOGIN",
-            }
-        )
-    }
-    const handleSignUpClick = ()=>{
-        authDispatch(
-            {
-                type:"SET_TO_SIGNUP"
-            }
-        )
-    }
+export const AuthModal = () => {
+  const { authDispatch, selectedTab } = useAuth();
 
-    const handleModalClose = () =>{
-        authDispatch({
-            type:"SHOW_AUTH_MODAL"
-        })
-    }
+  const handleLoginClick = () => {
+    authDispatch({
+      type: "SET_TO_LOGIN",
+    });
+  };
 
-    
-    return(
-        <div className="auth-modal-container fixed">
-            <div className="auth-modal absoulte shadow right">
-                <div className="d-flex align-center shadow" >
-                    <button   className={`button btn-auth grow-shrink-basis cursor-pointer ${selectedTab === "login" ? "btn-auth-selected" :"" }`} onClick={handleLoginClick}>Login</button>
-                    <button className={`button btn-auth grow-shrink-basis cursor-pointer ${selectedTab === "signup" ? "btn-auth-selected" :"" }`} onClick={handleSignUpClick}>Singup</button>
-                    <button className="button btn-auth d-flex align-center justify-center cursor-pointer" onClick={handleModalClose}>
-                    <span className="material-icons-outlined">close</span>
-                    </button>
+  const handleSignUpClick = () => {
+    authDispatch({
+      type: "SET_TO_SIGNUP",
+    });
+  };
 
-                </div>
-                <div>
-                        {selectedTab ==="login" ? <AuthLogin/> : selectedTab ==="signup" ? <AuthSignUp/> : ""}
-                    </div>
-            </div>
+  const handleModalClose = () => {
+    authDispatch({
+      type: "SHOW_AUTH_MODAL",
+    });
+  };
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-overlay">
+      <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-1/3 max-h-[90vh] overflow-auto"> {/* Added max-height and overflow */}
+        <div className="flex items-center justify-between p-4 border-b">
+          <button
+            className={`flex-1 py-2 text-center font-semibold ${selectedTab === "login" ? "bg-primary text-white" : "text-gray-700 hover:bg-gray-100"} transition`}
+            onClick={handleLoginClick}
+          >
+            Login
+          </button>
+          <button
+            className={`flex-1 py-2 text-center font-semibold ${selectedTab === "signup" ? "bg-primary text-white" : "text-gray-700 hover:bg-gray-100"} transition`}
+            onClick={handleSignUpClick}
+          >
+            Signup
+          </button>
+          <button
+            className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-200"
+            onClick={handleModalClose}
+          >
+            <span className="material-icons-outlined">close</span>
+          </button>
         </div>
-    )
-}
+        <div className="p-4">
+          {selectedTab === "login" ? <AuthLogin /> : selectedTab === "signup" ? <AuthSignUp /> : ""}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AuthModal;

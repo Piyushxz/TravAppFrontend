@@ -1,79 +1,73 @@
-import "./HotelCard.css"
-import { useNavigate } from "react-router-dom"
-import { useWishlist } from "../../context/wishlist-context"
-import { findHotelInWishlist } from "../../utils/find-hotel-in-wishlist"
-import { useAuth } from "../../context/auth-context"
-export const HotelCard = ({hotel})=>{
+import { useNavigate } from "react-router-dom";
+import { useWishlist } from "../../context/wishlist-context";
+import { findHotelInWishlist } from "../../utils/find-hotel-in-wishlist";
+import { useAuth } from "../../context/auth-context";
 
-    const {_id,name,image,address,state,rating,price} = hotel
-    const navigate = useNavigate()
+export const HotelCard = ({ hotel }) => {
+    const { _id, name, image, address, state, rating, price } = hotel;
+    const navigate = useNavigate();
+    const { wishlistDispatch, wishlist } = useWishlist();
+    const { accessToken, authDispatch } = useAuth();
 
-    const {wishlistDispatch,wishlist} = useWishlist()
+    const handleHotelCardClick = () => {
+        navigate(`/hotels/${name}/${address}-${state}/${_id}/reserve`);
+    };
 
-    const {accessToken,authDispatch} = useAuth();
-    console.log({accessToken})
+    const isHotelInWishlist = findHotelInWishlist(wishlist, _id);
 
-    const handleHotelCardClick = ()=>{
-        navigate(`/hotels/${name}/${address}-${state}/${_id}/reserve`)
-    }
-    const isHotelInWishlist = findHotelInWishlist(wishlist,_id);
-   
-    const handleWishlistClick = ()=>{
-        if(accessToken){
-            if(!isHotelInWishlist){
+    const handleWishlistClick = (e) => {
+        e.stopPropagation(); // Prevent triggering the hotel card click event
+        if (accessToken) {
+            if (!isHotelInWishlist) {
                 wishlistDispatch({
-                    type:"ADD_TO_WISHLIST",
-                    payload :hotel
-                })
-                navigate("/wishlist")
-            }else{
+                    type: "ADD_TO_WISHLIST",
+                    payload: hotel,
+                });
+                navigate("/wishlist");
+            } else {
                 wishlistDispatch({
-                    type:"REMOVE_FROM_WISHLIST",
-                    payload:_id,
-                })
+                    type: "REMOVE_FROM_WISHLIST",
+                    payload: _id,
+                });
             }
-        }else{
+        } else {
             authDispatch({
-                type:"SHOW_AUTH_MODAL"
-            })
+                type: "SHOW_AUTH_MODAL",
+            });
         }
+    };
 
-
-    }
-    console.log({wishlist})
-
-    return(
-        <div className="relative hotelcard-container shadow cursor-pointer">
-        <div onClick={handleHotelCardClick}>
-          <img className="img" src={image} alt={name} />
-          <div className="hotelcard-details">
-            <div className="d-flex align-center">
-              <span className="location">
-                {address}, {state}
-              </span>
-              <span className="rating d-flex align-center">
-                <span class="material-icons-outlined">star</span>
-                <span>{rating}</span>
-              </span>
+    return (
+        <div className="relative max-w-xs rounded-lg shadow-lg transition-transform duration-200 transform hover:scale-105 bg-background h-[400px]">
+            <div onClick={handleHotelCardClick}>
+                <img className="w-full h-60 object-cover rounded-t-lg" src={image} alt={name} />
+                <div className="flex flex-col justify-between h-full p-4">
+                    <div>
+                        <div className="flex justify-between items-center">
+                            <span className="font-bold text-base">{address}, {state}</span>
+                            <span className="flex items-center">
+                                <span className="material-icons-outlined text-yellow-500 text-base">star</span>
+                                <span className="ml-1">{rating}</span>
+                            </span>
+                        </div>
+                        <p className="text-sm font-normal py-1 truncate">{name}</p>
+                    </div>
+                    <p className="text-sm text-gray-700 mt-2">
+                        <span className="font-bold">Rs. {price}</span> per night
+                    </p>
+                </div>
             </div>
-            <p className="hotel-name">{name}</p>
-            <p className="price-details">
-              <span className="price">Rs. {price}</span>
-              <span>night</span>
-            </p>
-          </div>
+            <button
+                className="absolute top-2 right-2 p-2 bg-white rounded-full shadow-md focus:outline-none"
+                onClick={handleWishlistClick}
+            >
+                <span
+                    className={`material-icons favorite cursor-pointer ${isHotelInWishlist ? "text-red-600" : "text-gray-400"}`}
+                    aria-label={isHotelInWishlist ? "Remove from wishlist" : "Add to wishlist"}
+                >
+                    favorite
+                </span>
+            </button>
         </div>
-        <button
-          className="button btn-wishlist absolute d-flex align-center"
-          onClick={handleWishlistClick}
-        >
-          <span
-            className={`material-icons favorite cursor ${isHotelInWishlist ? "fav-selected" : ""
-              }`}
-          >
-            favorite
-          </span>
-        </button>
-      </div>
-    )
-}
+    );
+};

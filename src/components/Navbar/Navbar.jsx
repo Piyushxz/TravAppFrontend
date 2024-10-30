@@ -1,60 +1,66 @@
-
-import { useDate } from "../../context/date-context"
-import "./Navbar.css"
-import { useAuth } from "../../context/auth-context"
+import { useDate } from "../../context/date-context";
+import { useAuth } from "../../context/auth-context";
 
 export const Navbar = () => {
-  const {dateDispatch,destination,isSearchModalOpen,checkOutDate,checkinDate,guests} = useDate()
-  const {authDispatch} = useAuth()
-  const handleSearchClick = () =>{
-    dateDispatch({
-      type:"OPEN_SEARCH_MODAL",
-    })
+  const { dateDispatch, destination, isSearchModalOpen, checkOutDate, checkinDate, guests } = useDate();
+  const { authDispatch } = useAuth();
 
-    console.log("Srach bar clicked :",isSearchModalOpen);
-  }
+  const handleSearchClick = () => {
+    dateDispatch({ type: "OPEN_SEARCH_MODAL" });
+    console.log("Search bar clicked:", isSearchModalOpen);
+  };
 
+  const handleNavClick = () => {
+    authDispatch({ type: "SHOW_AUTH_MODAL" });
+  };
 
-  const handleNavClick = () =>{
-    authDispatch({
-      type:"SHOW_AUTH_MODAL"
-    })
-  }
   return (
-    <>
-    <header className="heading d-flex align-center">
-        <h1 className="heading-1">
-            <a className="link" href="/">TravApp</a>
-        </h1>
-      <div className="form-container d-flex align-center cursor-pointer shadow " onClick={handleSearchClick}>
-        <span className="form-option">{destination || "Any Where"}</span>
-        <span className="border-right-1px"></span>
+    <header className="flex items-center justify-between p-4 bg-white border-b-2 border-containerBorder md:p-6 w-full">
+      <h1 className="text-2xl font-bold">
+        <a className="text-primary" href="/">TravApp</a>
+      </h1>
+
+      
+      <div className="flex-grow flex justify-center">
+        <div className="w-full max-w-md"> 
+         
+          <div className="flex items-center space-x-4 p-2 rounded-lg cursor-pointer shadow hover:shadow-lg transition bg-gray-100 md:hidden" onClick={handleSearchClick}>
+            <span className="text-gray-700">{destination || "Any Where"}</span>
+            <span className="w-px h-6 bg-gray-300"></span>
+            <span className="text-gray-700">
+              {checkinDate && checkOutDate
+                ? `${checkinDate.toLocaleDateString("en-US", { day: "numeric", month: "short" })} - ${checkOutDate.toLocaleDateString("en-US", { day: "numeric", month: "short" })}`
+                : "Any Week"}
+            </span>
+            <span className="w-px h-6 "></span>
+            <span className="text-gray-700">{guests > 0 ? `${guests} guests` : "Add Guests"}</span>
+            <span className="material-icons-outlined text-gray-500">search</span>
+          </div>
+
        
-        <span className="form-option">{checkinDate && checkOutDate ? 
-          `${checkinDate.toLocaleDateString("en-US",{day :"numeric",month:"short"})} - ${checkOutDate.toLocaleDateString("en-US",{day :"numeric",month:"short"})}`
-        : "Any Week"}</span>
-        <span className="border-right-1px"></span>
-
-        <span className="form-option">{guests > 0 ? `${guests} guests` : "Add Guests"}</span>
-        <span className="search material-icons-outlined">search</span>
+          <div className="hidden md:flex items-center space-x-4 p-2 bg-gray-100 rounded-lg cursor-pointer shadow hover:shadow-lg transition" onClick={handleSearchClick}>
+            <span className="text-gray-700">{destination || "Any Where"}</span>
+            <span className="w-px h-6 "></span>
+            <span className="text-gray-700">
+              {checkinDate && checkOutDate
+                ? `${checkinDate.toLocaleDateString("en-US", { day: "numeric", month: "short" })} - ${checkOutDate.toLocaleDateString("en-US", { day: "numeric", month: "short" })}`
+                : "Any Week"}
+            </span>
+            <span className="w-px h-6 "></span>
+            <span className="text-gray-700">{guests > 0 ? `${guests} guests` : "Add Guests"}</span>
+            <span className="material-icons-outlined text-white bg-primary">search</span>
+          </div>
+        </div>
       </div>
-    <nav className="d-flex align-center gap-large "onClick={handleNavClick}> 
-        <ul className="d-flex align-center gap-large">
-            <div className='nav d-flex align-center cursor-pointer'>
-            <span className="material-icons-outlined profile-option menu">
-            menu
-          </span>
-          <span className="material-icons-outlined profile-option person">
-            person_2
-          </span>
-            </div>
-        </ul>
-    </nav>
-</header>
-    </>
-  )
-}
 
-
+      <nav className="flex items-center cursor-pointer" onClick={handleNavClick}>
+        <div className="flex items-center">
+          <span className="material-icons-outlined text-gray-500">menu</span>
+          <span className="material-icons-outlined text-gray-500">person_2</span>
+        </div>
+      </nav>
+    </header>
+  );
+};
 
 export default Navbar;
