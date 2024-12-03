@@ -21,7 +21,7 @@ export const Home = () => {
     useEffect(() => {
         (async () => {
             try {
-                const { data } = await axios.get(`https://travelapp-backend-cdeh.onrender.com/api/hotels?category=${hotelCategory}`);
+                const { data } = await axios.get(`https://travelapp-backend-3hjw.onrender.com/api/hotels?category=${hotelCategory}`);
                 console.log(data);
                 setHotels(data);
             } catch (err) {

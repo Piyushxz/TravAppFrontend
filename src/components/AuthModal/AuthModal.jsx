@@ -25,7 +25,7 @@ export const AuthModal = () => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-overlay">
-      <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-1/3 max-h-[90vh] overflow-auto"> {/* Added max-height and overflow */}
+      <div className="bg-white rounded-lg shadow-lg w-11/12 md:w-1/3 max-h-[90vh] overflow-auto"> 
         <div className="flex items-center justify-between p-4 border-b">
           <button
             className={`flex-1 py-2 text-center font-semibold ${selectedTab === "login" ? "bg-primary text-white" : "text-gray-700 hover:bg-gray-100"} transition`}

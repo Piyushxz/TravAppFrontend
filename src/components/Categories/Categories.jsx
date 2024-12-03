@@ -31,7 +31,7 @@ export const Categories = () => {
     useEffect(() => {
         (async () => {
             try {
-                const { data } = await axios.get("https://travelapp-backend-cdeh.onrender.com/api/category");
+                const { data } = await axios.get("https://travelapp-backend-3hjw.onrender.com/api/category");
                 const categoriesToShow = data.slice(numberofCategoryToShow, numberofCategoryToShow + 10);
                 setCategories(categoriesToShow);
             } catch (err) {
