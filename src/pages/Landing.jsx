@@ -2,6 +2,7 @@ import {motion } from "motion/react"
 import { HomeSelection } from "../components/HomeSelection"
 import { HomeCard } from "../components/HomeCard"
 import { HomeCarousel } from "../components/HomeCarousel"
+import { Faq } from "../components/Faq"
 
 export const Landing = ()=>{
     return(
@@ -37,7 +38,9 @@ export const Landing = ()=>{
                     transition={{
                         duration: 0.7,
                         ease: "easeInOut",
+                        
                     }}
+                    className="flex justify-center md:flex md:justify-normal	"
                     >
                     <HomeSelection />
                     </motion.div>
@@ -98,24 +101,75 @@ export const Landing = ()=>{
                 </div>
 
             
-            <div className="w-screen flex justify-center mt-20">
-                    <div className="w-[80vw] flex gap-4 hidden grid md:flex">
+            <div className="w-screen flex justify-center items-center mt-14 flex-col gap-4">
+                    <div className="w-[80vw]">
+                        <h1 className="font-manrope text-[#FF7518] tracking-tighter text-3xl md:text-5xl font-extrabold">
+                        Stays with all the best comforts
+                        </h1>
+                        <h1 className="font-manrope text-black tracking-tighter text-lg md:text-xl font-extrabold">
+                        Find entire homes complete with kitchens, wifi, hot tubs and more.
+                        </h1>
+                    </div>
+                    <div>
+                    <div className="w-[80vw] flex gap-4 hidden grid md:flex ">
+ 
+                            <HomeCard link={"https://a0.muscache.com/im/pictures/miso/Hosting-1014506245981978233/original/bb677725-63e2-4aae-befa-a835264011aa.jpeg?im_w=720&im_format=avif"} title={'Old House,Tennessee'} rating={4.3}/>
+                            <HomeCard link={"https://a0.muscache.com/im/pictures/miso/Hosting-1152177177875845044/original/c552d1ce-3e75-46e9-9a54-4e201dd3a2bf.jpeg?im_w=720&im_format=avif"} title={'Home in Favelas, Brazil'} rating={4.6}/>
+                            <HomeCard link={"https://a0.muscache.com/im/pictures/miso/Hosting-971172991313485288/original/36fc6516-4006-4be4-b8a3-ae865fd42e86.jpeg?im_w=720&im_format=avif"} title={'Treehouse,Texas'} rating={3.9}/>
+                            <HomeCard link={"https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTA1MzQ2Mjc0MTk1ODU4Njg2Mw%3D%3D/original/53177020-9817-4078-9cb0-d36702ee60f3.jpeg?im_w=720&im_format=avif"} title={'Resort,Alabama'} rating={5.0}/>
 
-                        <HomeCard link={"https://a0.muscache.com/im/pictures/miso/Hosting-1014506245981978233/original/bb677725-63e2-4aae-befa-a835264011aa.jpeg?im_w=720&im_format=avif"} title={'Old House,Tennessee'} rating={4.3}/>
-                        <HomeCard link={"https://a0.muscache.com/im/pictures/miso/Hosting-1152177177875845044/original/c552d1ce-3e75-46e9-9a54-4e201dd3a2bf.jpeg?im_w=720&im_format=avif"} title={'Home in Favelas, Brazil'} rating={4.6}/>
-                        <HomeCard link={"https://a0.muscache.com/im/pictures/miso/Hosting-971172991313485288/original/36fc6516-4006-4be4-b8a3-ae865fd42e86.jpeg?im_w=720&im_format=avif"} title={'Treehouse,Texas'} rating={3.9}/>
-                        <HomeCard link={"https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTA1MzQ2Mjc0MTk1ODU4Njg2Mw%3D%3D/original/53177020-9817-4078-9cb0-d36702ee60f3.jpeg?im_w=720&im_format=avif"} title={'Resort,Alabama'} rating={5.0}/>
+                        </div>
+                            <div className="md:hidden flex justify-center items-center">
+                            <HomeCarousel/>
+                            </div>
+                      </div>
+
+
+            </div>
+            <div className="w-screen flex justify-center mt-6">
+                <div className="w-[80vw]">
+                <button className="md:px-6 md:py-3 px-4 py-2 font-manrope font-bold text-white rounded-lg bg-[#FF7518] hover:opacity-60">
+                            Explore more
+                      </button>
+                </div>
+            </div>
+
+
+            <div className="w-screen flex justify-center items-center mt-20">
+                    <div className="w-[80vw] grid grid-cols-12 ">
+                        <motion.div 
+                        initial={{ opacity: 0, x: -20 }} 
+                        whileInView={{ opacity: 1, x: 0 }} 
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                        viewport={{ amount: 0.5 }} 
+                        className="col-span-12 md:col-span-6  md:h-96  flex justify-center   ">
+                                <h1 className="font-manrope text-[#FF7518] tracking-tighter text-4xl md:text-5xl font-extrabold">
+                                Your questions, answered
+                            </h1>
+                            
+
+
+                        </motion.div>
+                        <motion.div 
+                        initial={{ opacity: 0, x: 20 }} 
+                        whileInView={{ opacity: 1, x: 0 }} 
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
+                        viewport={{ amount: 0.5 }} 
+                        className="col-span-12 md:col-span-6 md:mt-0 mt-6 h-96 flex flex-col gap-6 ">
+                            
+                        <Faq question={"What is Airbnb and how does it work?"} answer={"We verify personal profiles and listings to make sharing easy, enjoyable and safe for millions of Hosts and travellers worldwide. Find out more about Airbnb."}/>
+                        <Faq question={"How do I use search filters?"} answer={"It’s easy to use our search filters to only show the listings that have the accessibility features you need. Learn more about using search filters and discover more flexible ways to search."}/>
+                        <Faq question={"What if I need to cancel due to a problem with the listing or Host?"} answer={"In most cases, you can resolve any issues directly by messaging your Host. If they can't help, simply contact Airbnb within 24 hours of discovering the issue. Learn more"}/>
+
+
+                        </motion.div>
 
                     </div>
-                    <div className="md:hidden flex justify-center items-center">
-                        <HomeCarousel/>
-                    </div>
+            </div>
 
 
 
             </div>
-            </div>
-
 
 
         </>

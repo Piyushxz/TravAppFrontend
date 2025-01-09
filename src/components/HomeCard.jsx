@@ -6,7 +6,7 @@ export const HomeCard = ({ link, title, rating }) => {
         </div>
         <div className="px-2 flex justify-between">
           <h1 className="font-manrope text-black tracking-tighter text-md font-bold">{title}</h1>
-          <div className="flex items-center">
+          <div className="hidden md:flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               height="24px"

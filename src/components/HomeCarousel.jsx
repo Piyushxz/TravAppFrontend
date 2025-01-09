@@ -38,7 +38,7 @@ export const HomeCarousel = () => {
   };
 
   return (
-    <div className="relative w-full max-w-[80vw] mx-auto overflow-hidden">
+    <div className="relative w-full max-w-[70vw] mx-auto overflow-hidden">
       <div
         className="flex transition-transform duration-500"
         style={{

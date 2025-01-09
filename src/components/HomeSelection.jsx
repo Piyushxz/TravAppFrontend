@@ -57,9 +57,9 @@ export const HomeSelection = () => {
 
 
     return (
-            <div className="destination-options border border-white bg-background rounded-lg p-4 md:w-96 w-11/12 mt-4 relative flex shadow-2xl font-manrope flex justify-center hover:">
+            <div className="destination-options border border-white bg-background rounded-lg p-4 w-96 mt-4 relative flex shadow-2xl font-manrope flex justify-center hover:">
 
-                <div className="flex flex-col space-y-4">
+                <div className="flex flex-col space-y-4 p-2">
                     <div className="location-container">
                         <label className="label font-manrope font-bold text-xs">LOCATION</label>
                         <input
@@ -71,11 +71,11 @@ export const HomeSelection = () => {
                             autoFocus
                         />
                     </div>
-                    <div className="location-container  font-manrope  tracking-tigther font-sm flex justify-between items-center">
+                    <div className="location-container p-2 font-manrope  tracking-tigther font-sm flex justify-between items-center">
                         <label className="label">Check in</label>
                         <DateSelector checkInType="in" />
                     </div>
-                    <div className="location-container font-manrope  tracking-tigther font-sm flex justify-between items-center">
+                    <div className="location-container p-2 font-manrope  tracking-tigther font-sm flex justify-between items-center">
                         <label className="label">Check out</label>
                         <DateSelector checkInType="out" />
                     </div>
