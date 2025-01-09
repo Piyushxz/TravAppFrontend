@@ -45,8 +45,7 @@ export const Home = () => {
                     ))
                 }
             </main>
-            {isSearchModalOpen && <SearchStayWithDate />}
-            {isFilterModalOpen && <Filter />}
+           {isFilterModalOpen && <Filter />}
             {isAuthModalOpen && <AuthModal />}
         </div>
     );

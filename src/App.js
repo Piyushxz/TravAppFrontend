@@ -1,7 +1,4 @@
-
-
-
-
+import { Landing } from './pages/Landing';
 import './App.css';
 import { Route,Routes } from 'react-router-dom';
 import { Home } from './pages/Home';
@@ -10,12 +7,18 @@ import { SearchResult } from './components/SearchResults/SearchResults';
 import { Filter } from './components/Filter/Filter';
 import { Wishlist } from './pages/Wishlist/Wishlist';
 import { Payment } from './pages/Payment/Payment';
+import { useDate } from './context/date-context';
+import { SearchStayWithDate } from './components/SearchStayWithDate/SearchStayWithDate';
 function App() {
-  return (
+  const {isSearchModalOpen} = useDate();
 
+  return (
     <>
+      {isSearchModalOpen && <SearchStayWithDate />}
+
     <Routes>
-      <Route path='/' element = {<Home/>} />
+      <Route path='/' element={<Landing/>}/>
+      <Route path='/search' element = {<Home/>} />
       <Route path='/hotels/:name/:address/:id/reserve' element={<SingleHotel/>}/>
       <Route path='/hotels/:address' element={<SearchResult/>}/>
       <Route path='/filter' element={<Filter/>}/>

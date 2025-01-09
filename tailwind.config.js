@@ -13,6 +13,9 @@ module.exports = {
         containerBorder: "#707070",
         overlay: "rgba(0, 0, 0, 0.3)",
       },
+      fontFamily:{
+        manrope: ['Manrope', 'sans-serif'],
+      }
     },
 
   },
