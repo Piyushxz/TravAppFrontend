@@ -1,5 +1,7 @@
 import {motion } from "motion/react"
 import { HomeSelection } from "../components/HomeSelection"
+import { HomeCard } from "../components/HomeCard"
+import { HomeCarousel } from "../components/HomeCarousel"
 
 export const Landing = ()=>{
     return(
@@ -42,7 +44,7 @@ export const Landing = ()=>{
                 </div>
                     
 
-                                            <img
+                            <img
                     className=" w-[60vw] md:h-[500px] h-[96] mt-8 md:mt-0 shadow-sm  md:absolute relative md:translate-x-[150px] md:translate-y-[50px]"
                     src="https://a0.muscache.com/im/pictures/f4b1d5fa-da61-4ad6-945b-f5e9cab3f3f2.jpg?im_w=1440"
                     alt="Descriptive text about the image"
@@ -95,7 +97,23 @@ export const Landing = ()=>{
                 </div>
                 </div>
 
+            
+            <div className="w-screen flex justify-center mt-20">
+                    <div className="w-[80vw] flex gap-4 hidden grid md:flex">
 
+                        <HomeCard link={"https://a0.muscache.com/im/pictures/miso/Hosting-1014506245981978233/original/bb677725-63e2-4aae-befa-a835264011aa.jpeg?im_w=720&im_format=avif"} title={'Old House,Tennessee'} rating={4.3}/>
+                        <HomeCard link={"https://a0.muscache.com/im/pictures/miso/Hosting-1152177177875845044/original/c552d1ce-3e75-46e9-9a54-4e201dd3a2bf.jpeg?im_w=720&im_format=avif"} title={'Home in Favelas, Brazil'} rating={4.6}/>
+                        <HomeCard link={"https://a0.muscache.com/im/pictures/miso/Hosting-971172991313485288/original/36fc6516-4006-4be4-b8a3-ae865fd42e86.jpeg?im_w=720&im_format=avif"} title={'Treehouse,Texas'} rating={3.9}/>
+                        <HomeCard link={"https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTA1MzQ2Mjc0MTk1ODU4Njg2Mw%3D%3D/original/53177020-9817-4078-9cb0-d36702ee60f3.jpeg?im_w=720&im_format=avif"} title={'Resort,Alabama'} rating={5.0}/>
+
+                    </div>
+                    <div className="md:hidden flex justify-center items-center">
+                        <HomeCarousel/>
+                    </div>
+
+
+
+            </div>
             </div>
 
 

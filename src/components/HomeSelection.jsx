@@ -57,7 +57,7 @@ export const HomeSelection = () => {
 
 
     return (
-            <div className="destination-options bg-background rounded-lg p-4 md:w-96 w-11/12 mt-4 relative flex shadow-2xl font-manrope flex justify-center hover:">
+            <div className="destination-options border border-white bg-background rounded-lg p-4 md:w-96 w-11/12 mt-4 relative flex shadow-2xl font-manrope flex justify-center hover:">
 
                 <div className="flex flex-col space-y-4">
                     <div className="location-container">
