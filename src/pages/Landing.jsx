@@ -3,6 +3,7 @@ import { HomeSelection } from "../components/HomeSelection"
 import { HomeCard } from "../components/HomeCard"
 import { HomeCarousel } from "../components/HomeCarousel"
 import { Faq } from "../components/Faq"
+import { Footer } from "../components/Footer"
 
 export const Landing = ()=>{
     return(
@@ -157,17 +158,19 @@ export const Landing = ()=>{
                         viewport={{ amount: 0.5 }} 
                         className="col-span-12 md:col-span-6 md:mt-0 mt-6 h-96 flex flex-col gap-6 ">
                             
-                        <Faq question={"What is Airbnb and how does it work?"} answer={"We verify personal profiles and listings to make sharing easy, enjoyable and safe for millions of Hosts and travellers worldwide. Find out more about Airbnb."}/>
+                        <Faq question={"What is TravO and how does it work?"} answer={"We verify personal profiles and listings to make sharing easy, enjoyable and safe for millions of Hosts and travellers worldwide. Find out more about Trav0"}/>
                         <Faq question={"How do I use search filters?"} answer={"It’s easy to use our search filters to only show the listings that have the accessibility features you need. Learn more about using search filters and discover more flexible ways to search."}/>
                         <Faq question={"What if I need to cancel due to a problem with the listing or Host?"} answer={"In most cases, you can resolve any issues directly by messaging your Host. If they can't help, simply contact Airbnb within 24 hours of discovering the issue. Learn more"}/>
+                        <Faq question={"Need more information?"} answer={"Visit our Help Centre to get additional answers to your questions. Learn more"}/>
 
 
                         </motion.div>
 
                     </div>
+                    
             </div>
 
-
+                    <Footer/>
 
             </div>
 
