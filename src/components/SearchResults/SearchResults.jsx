@@ -14,14 +14,14 @@ export const SearchResult = () => {
         (async () => {
             try {
                 const { data } = await axios.get(
-                    `https://travelapp-backend-cdeh.onrender.com/api/hotels?category=${hotelCategory}`
+                    `https://travelapp-backend-3hjw.onrender.com/api/hotels?category=${hotelCategory}`
                 );
                 setHotels(data);
             } catch (err) {
                 console.error("Error fetching hotels:", err);
             }
         })();
-    }, [destination, hotelCategory]); // Added hotelCategory as dependency
+    }, [destination, hotelCategory]); 
 
     const filteredSearchResults = hotels.filter(
         ({ city, address, state }) =>
@@ -33,7 +33,8 @@ export const SearchResult = () => {
     return (
         <>
             <Navbar />
-            <section className="main flex flex-wrap gap-4 p-4">
+            <div className="w-screen flex justify-center">
+            <section className="main flex flex-wrap gap-4 p-4 w-[80vw]">
                 {filteredSearchResults.length > 0 ? (
                     filteredSearchResults.map(hotel => (
                         <HotelCard key={hotel._id} hotel={hotel} />
@@ -42,6 +43,8 @@ export const SearchResult = () => {
                     <h3 className="text-center w-full">Not found</h3>
                 )}
             </section>
+            </div>
+
         </>
     );
 };

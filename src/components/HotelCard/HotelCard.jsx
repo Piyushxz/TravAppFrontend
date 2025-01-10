@@ -38,22 +38,22 @@ export const HotelCard = ({ hotel }) => {
     };
 
     return (
-        <div className="relative max-w-xs rounded-lg shadow-lg transition-transform duration-200 transform hover:scale-105 bg-background h-[400px]">
+        <div className="relative font-manrope tracking-tigther max-w-xs rounded-lg shadow-lg transition-transform duration-200 transform hover:scale-105 bg-background h-[400px]">
             <div onClick={handleHotelCardClick}>
                 <img className="w-full h-60 object-cover rounded-t-lg" src={image} alt={name} />
                 <div className="flex flex-col justify-between h-full p-4">
                     <div>
                         <div className="flex justify-between items-center">
-                            <span className="font-bold text-base">{address}, {state}</span>
+                            <span className="font-bold text-base font-manrope tracking-tighter">{address}, {state}</span>
                             <span className="flex items-center">
                                 <span className="material-icons-outlined text-yellow-500 text-base">star</span>
                                 <span className="ml-1">{rating}</span>
                             </span>
                         </div>
-                        <p className="text-sm font-normal py-1 truncate">{name}</p>
+                        <p className="text-sm font-normal py-1 truncate font-manrope ">{name}</p>
                     </div>
                     <p className="text-sm text-gray-700 mt-2">
-                        <span className="font-bold">Rs. {price}</span> per night
+                        <span className="font-bold font-manrope tracking-tighter">Rs. {price}</span> per night
                     </p>
                 </div>
             </div>
