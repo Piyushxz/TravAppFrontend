@@ -119,8 +119,8 @@ export const Footer = () => {
   
         
         <div className="flex justify-center items-center py-4 bg-backgroundColor">
-          <h1 className="text-lg font-manrope text-orange-400 tracking-tighter font-black text-white">
-            Made with <span className="text-red-500">&#x1F9E1;</span> by Piyush
+          <h1 className="text-lg font-manrope text-orange-300 tracking-tighter font-black ">
+            Made with <span className="text-orange-500">&#x1F9E1;</span> by Piyush
           </h1>
         </div>
       </>

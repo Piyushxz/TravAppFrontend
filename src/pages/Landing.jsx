@@ -4,8 +4,10 @@ import { HomeCard } from "../components/HomeCard"
 import { HomeCarousel } from "../components/HomeCarousel"
 import { Faq } from "../components/Faq"
 import { Footer } from "../components/Footer"
+import { useNavigate } from "react-router-dom"
 
 export const Landing = ()=>{
+    const nav = useNavigate()
     return(
         <>
             <div className="w-screen h-screen flex flex-col ">
@@ -129,7 +131,8 @@ export const Landing = ()=>{
             </div>
             <div className="w-screen flex justify-center mt-6">
                 <div className="w-[80vw]">
-                <button className="md:px-6 md:py-3 px-4 py-2 font-manrope font-bold text-white rounded-lg bg-[#FF7518] hover:opacity-60">
+                <button onClick={()=>nav("/search")}
+                className="md:px-6 md:py-3 px-4 py-2 font-manrope font-bold text-white rounded-lg bg-[#FF7518] hover:opacity-60">
                             Explore more
                       </button>
                 </div>
