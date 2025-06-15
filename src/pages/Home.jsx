@@ -10,6 +10,7 @@ import { Filter } from "../components/Filter/Filter";
 import { useFilter } from "../context/filter-context";
 import { AuthModal } from "../components/AuthModal/AuthModal";
 import { useAuth } from "../context/auth-context";
+import { NewNavbar } from "../components/NewNavbar/NewNavbar";
 
 export const Home = () => {
     const [hotels, setHotels] = useState([]);
@@ -36,7 +37,8 @@ export const Home = () => {
 
     return (
         <div className="relative">
-            <Navbar />
+            {/* <Navbar /> */}
+            <NewNavbar/>
             <Categories />
             <main className="flex flex-wrap gap-4 justify-center items-start p-4">
                 {filterHotelByIsCancelable && 

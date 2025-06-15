@@ -26,7 +26,7 @@ export const SingleHotel = () => {
   return (
     <>
       <Navbar />
-      <main className="single-hotel-page p-4 md:p-8">
+      <main className="single-hotel-page p-4 md:p-8 font-manrope tracking-tight">
         <p className="hotel-name-address text-xl md:text-2xl pb-2">
           {city}, {state}
         </p>

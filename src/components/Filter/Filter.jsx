@@ -21,7 +21,7 @@ export const Filter = () => {
     };
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+        <div className="fixed font-manrope tracking-tight inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div className="filter-page shadow-lg rounded-lg w-11/12 md:w-1/3 max-w-sm p-4 bg-white">
                 <div className="flex items-center justify-between mb-4">
                     <span className="text-lg font-semibold">Filter</span>

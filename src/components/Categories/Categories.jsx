@@ -41,7 +41,7 @@ export const Categories = () => {
     }, [numberofCategoryToShow]);
 
     return (
-        <section className="flex flex-col md:flex-row items-center justify-center gap-4 p-4">
+        <section className="flex font-manrope flex-col md:flex-row items-center justify-center gap-4 p-4">
             {numberofCategoryToShow >= 10 && (
                 <button className="btn-category button btn-left cursor-pointer" onClick={handleShowMoreLeftClick}>
                     <span className="material-icons-outlined">chevron_left</span>
@@ -51,7 +51,7 @@ export const Categories = () => {
             <div className="flex flex-wrap justify-center gap-2">
                 {categories && categories.map(({ category, _id }) => (
                     <span
-                        className={`cursor-pointer border-b-2 p-2 ${category === hotelCategory ? "border-primary" : "border-transparent"}`}
+                        className={`cursor-pointer font-manrope tracking-tight border-b-2 p-2 ${category === hotelCategory ? "border-primary" : "border-transparent"}`}
                         key={_id}
                         onClick={() => handleCategoryClick(category)}
                     >
@@ -66,7 +66,7 @@ export const Categories = () => {
                 </button>
             )}
 
-            <button onClick={handleFilterClick} className="button flex items-center gap-2 cursor-pointer">
+            <button onClick={handleFilterClick} className="button font-manrope tracking-tight flex items-center gap-2 cursor-pointer">
                 <span className="material-icons-outlined">filter_alt</span>
                 <span>Filter</span>
             </button>
