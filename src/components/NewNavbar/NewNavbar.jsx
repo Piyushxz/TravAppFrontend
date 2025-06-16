@@ -2,19 +2,19 @@ import { useDate } from "../../context/date-context";
 import { useAuth } from "../../context/auth-context";
 import { Tabs } from "./Tabs";
 import { SearchBar } from "../SearchBar/SearchBar";
+import { useCategory } from "../../context/category-context";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 export const NewNavbar = () => {
-  const { dateDispatch, destination, isSearchModalOpen, checkOutDate, checkinDate, guests } = useDate();
   const { authDispatch } = useAuth();
-
-  const handleSearchClick = () => {
-    dateDispatch({ type: "OPEN_SEARCH_MODAL" });
-    console.log("Search bar clicked:", isSearchModalOpen);
-  };
 
   const handleNavClick = () => {
     authDispatch({ type: "SHOW_AUTH_MODAL" });
   };
+
 
   return (
     <header className="flex items-center justify-between p-4 bg-white border-b-2 border-containerBorder md:p-6 w-full">

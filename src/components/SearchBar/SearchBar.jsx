@@ -1,8 +1,12 @@
 import { useState, useEffect } from "react";
-import { SearchIcon } from "lucide-react";
+import { ImageIcon, SearchIcon } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import useMeasure from "react-use-measure";
 import { useRef } from "react";
+import { useCategory } from "../../context/category-context";
+import { useNavigate } from "react-router-dom";
+import { useDate } from "../../context/date-context";
+import axios from "axios";
 
 export function SearchBar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -15,6 +19,77 @@ export function SearchBar() {
   const modalRef = useRef(null);
   const [ref, { width, height }] = useMeasure();
   const searchbarRef = useRef(null);
+  const { dateDispatch, destination, isSearchModalOpen, checkOutDate, checkinDate, guests } = useDate();
+
+  const { hotelCategory } = useCategory();
+  const [hotels, setHotels] = useState([]);
+  const navigate = useNavigate();
+  
+      useEffect(() => {
+          (async () => {
+              try {
+                  const { data } = await axios.get(`https://travelapp-backend-3hjw.onrender.com/api/hotels?category=${hotelCategory}`);
+                  setHotels(data);
+              } catch (err) {
+                  console.error("Error fetching hotels:", err);
+              }
+          })();
+      }, [hotelCategory]);
+
+  const handleSearchClick = () => {
+    dateDispatch({ type: "OPEN_SEARCH_MODAL" });
+    console.log("Search bar clicked:", isSearchModalOpen);
+  };
+
+  const handleDestinationChange = (e) => {
+    dateDispatch({
+        type: "DESTINATION",
+        payload: e.target.value
+    });
+};
+
+const handleGuestChange = (e) => {
+    dateDispatch({
+        type: "GUESTS",
+        payload: e.target.value
+    });
+};
+
+const handleSearchResultClick = (address) => {
+    dateDispatch({
+        type: "DESTINATION",
+        payload: address
+    });
+};
+
+const destinationOptions = hotels.filter(({ address, city, state, country }) =>
+    address.toLowerCase().includes(destination.toLowerCase()) ||
+    city.toLowerCase().includes(destination.toLowerCase()) ||
+    state.toLowerCase().includes(destination.toLowerCase()) ||
+    country.toLowerCase().includes(destination.toLowerCase())
+);
+
+const handleDestinationFocus = () => {
+    dateDispatch({
+        type: "SHOW_SEARCH_RESULT",
+    });
+};
+
+const handleSearchButtonClick = () => {
+    dateDispatch({
+        type: "CLOSE_SEARCH_MODAL",
+    });
+    navigate(`/hotels/${destination}`);
+};
+
+const handleCloseModal = () => {
+    dateDispatch({
+        type: "OPEN_SEARCH_MODAL"
+    });
+};
+
+
+
   // Reset isInitialTabOpen after first animation
   useEffect(() => {
     if (isInitialTabOpen) {
@@ -25,6 +100,7 @@ export function SearchBar() {
     }
   }, [isInitialTabOpen]);
 
+  console.log(hotels,22)
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -48,7 +124,7 @@ export function SearchBar() {
 
   return (
     <>
-      <div onClick={()=>{}}  ref={searchbarRef} className="relative font-manrope border w-[700px] h-14 rounded-full bg-white shadow-xl flex items-center justify-between">
+      <div onClick={()=>{}}  ref={searchbarRef} className="relative font-manrope tracking-tight border w-[700px] h-14 rounded-full bg-white shadow-xl flex items-center justify-between">
         <div className="flex items-center justify-between w-full relative">
           {/* Where */}
           <div className="relative">
@@ -138,24 +214,49 @@ export function SearchBar() {
 
       {/* Modal Section */}
       <div className="absolute z-50 top-[90px]" ref={modalRef}>
-        <AnimatePresence mode="popLayout">
+        <AnimatePresence mode="wait">
           <div ref={ref}>
-            <motion.div transition={{ type: "spring", bounce: 0 }}>
+            <motion.div transition={{ type: "spring", bounce: 0, }}>
               {/* Where Tab */}
               {(initialTabOpen === "whereTab" || tabToTransit === 1) && (
-                <motion.div
-                  layoutId="modal"
-                  key={"whereTab"}
-                  initial={
-                    isInitialTabOpen
-                      ? { scaleY: 0.5, scaleX: 0.1, opacity: 0 }
-                      : false
-                  }
-                  animate={{ scaleY: 1, scaleX: 1, opacity: 1 }}
-                  transition={{ type: "spring", duration: 0.5, ease: "easeIn", bounce: 0 }}
-                  className="bg-white origin-top border rounded-2xl shadow-md w-80 h-96 absolute left-4"
-                ></motion.div>
-              )}
+            <motion.div
+              layoutId="modal"
+              key={"whereTab"}
+              initial={
+                isInitialTabOpen
+                  ? { scaleY: 0.5, scaleX: 0.1, opacity: 0 }
+                  : false
+              }
+              animate={{ scaleY: 1, scaleX: 1, opacity: 1 }}
+              transition={{ type: "spring", duration: 0.7, ease: "easeIn", bounce: 0 }}
+              className="bg-white origin-top border rounded-2xl shadow-md w-96 h-96 absolute left-4 flex flex-col"
+            >
+              <div className="w-full font-manrope tracking-tight overflow-y-auto flex-1 px-2 py-2 ">
+              {hotels.map((hotel, index) => (
+              <div key={index} className="flex gap-2 mx-2 my-2 p-2 rounded-md hover:bg-black/10 transition-colors ease-in">
+                <div className="min-w-[110px] h-[70px] rounded-md overflow-hidden flex-shrink-0 bg-gray-100 flex items-center justify-center relative">
+                  <img
+                    src={hotel.image}
+                    className="w-full h-full object-cover rounded-md"
+                    alt={hotel.city}
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextElementSibling.style.display = 'flex';
+                    }}
+                  />
+                  <ImageIcon 
+                    className="w-8 h-8 text-gray-400 absolute inset-0 m-auto hidden"
+                  />
+                </div>
+                <div className="flex flex-col justify-center pb-4">
+                  <h3 className="text-sm font-manrope font-semibold text-black">{hotel.city}, {hotel.country}</h3>
+                  <h4 className="text-sm font-manrope text-black/60">{hotel.name}</h4>
+                </div>
+              </div>
+            ))}
+              </div>
+            </motion.div>
+          )}
 
               {/* Check In Tab */}
               {(initialTabOpen === "checkInTab" || tabToTransit === 2) && (
@@ -168,7 +269,7 @@ export function SearchBar() {
                       : false
                   }
                   animate={{ scaleY: 1, scaleX: 1, opacity: 1 }}
-                  transition={{ type: "spring", duration: 0.3, ease: "easeIn", bounce: 0 }}
+                  transition={{ type: "spring", duration: 0.7, ease: "easeIn", bounce: 0 }}
                   className="bg-white origin-top border rounded-2xl shadow-md w-[700px] h-96 absolute"
                 ></motion.div>
               )}
@@ -184,7 +285,7 @@ export function SearchBar() {
                       : false
                   }
                   animate={{ scaleY: 1, scaleX: 1, opacity: 1 }}
-                  transition={{ type: "spring", duration: 0.3, ease: "easeIn", bounce: 0 }}
+                  transition={{ type: "spring", duration: 0.7, ease: "easeIn", bounce: 0 }}
                   className="bg-white origin-top border rounded-2xl shadow-md w-[700px] h-96 absolute z-50"
                 ></motion.div>
               )}
@@ -200,7 +301,7 @@ export function SearchBar() {
                       : false
                   }
                   animate={{ scaleY: 1, scaleX: 1, opacity: 1 }}
-                  transition={{ type: "spring", duration: 0.3, ease: "easeIn", bounce: 0 }}
+                  transition={{ type: "spring", duration: 0.7, ease: "easeIn", bounce: 0 }}
                   className="bg-white origin-top border rounded-2xl shadow-md w-80 h-96 absolute z-50 left-[370px]"
                 ></motion.div>
               )}
