@@ -41,7 +41,7 @@ export const Categories = () => {
     }, [numberofCategoryToShow]);
 
     return (
-        <section className="flex font-manrope flex-col md:flex-row items-center justify-center gap-4 p-4">
+        <section className="flex pt-[150px] font-manrope flex-col md:flex-row items-center justify-center gap-4 p-4">
             {numberofCategoryToShow >= 10 && (
                 <button className="btn-category button btn-left cursor-pointer" onClick={handleShowMoreLeftClick}>
                     <span className="material-icons-outlined">chevron_left</span>

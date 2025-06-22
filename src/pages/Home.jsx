@@ -39,6 +39,7 @@ export const Home = () => {
         <div className="relative">
             {/* <Navbar /> */}
             <NewNavbar/>
+          
             <Categories />
             <main className="flex flex-wrap gap-4 justify-center items-start p-4">
                 {filterHotelByIsCancelable && 

@@ -17,7 +17,7 @@ export const NewNavbar = () => {
 
 
   return (
-    <header className="flex items-center justify-between p-4 bg-white border-b-2 border-containerBorder md:p-6 w-full">
+    <header className="flex z-10 fixed items-center justify-between p-4 bg-white border-b-2 border-containerBorder md:p-6 w-full">
       <h1 className="text-xl md:text-2xl font-manrope tracking-tigther font-bold">
         <a className="text-primary" href="/">TravO</a>
       </h1>
