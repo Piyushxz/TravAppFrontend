@@ -11,6 +11,8 @@ import { useFilter } from "../context/filter-context";
 import { AuthModal } from "../components/AuthModal/AuthModal";
 import { useAuth } from "../context/auth-context";
 import { NewNavbar } from "../components/NewNavbar/NewNavbar";
+import useIsMobile from "../hooks/isMobile";
+import MobileNavbar from "../components/Navbar/MobileNavbar";
 
 export const Home = () => {
     const [hotels, setHotels] = useState([]);
@@ -18,7 +20,7 @@ export const Home = () => {
     const { isSearchModalOpen } = useDate();
     const { isFilterModalOpen, priceRange, propertyType, isCancelable } = useFilter();
     const { isAuthModalOpen } = useAuth();
-
+    const isMobile = useIsMobile()
     useEffect(() => {
         (async () => {
             try {
@@ -38,7 +40,7 @@ export const Home = () => {
     return (
         <div className="relative">
             {/* <Navbar /> */}
-            <NewNavbar/>
+          { isMobile ? <MobileNavbar/> :<NewNavbar/>}
           
             <Categories />
             <main className="flex flex-wrap gap-4 justify-center items-start p-4">

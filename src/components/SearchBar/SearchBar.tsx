@@ -232,21 +232,29 @@ const handleCloseModal = () => {
       </div>
 
       {/* Modal Section */}
-      <div className="absolute z-50 top-[90px]" ref={modalRef}>
-        <AnimatePresence mode="popLayout">
-          <div ref={ref}>
+     
+            <motion.div
+            layout
+            className="absolute z-50 top-[90px]" ref={modalRef}>
+        
+        <AnimatePresence mode="popLayout"
+        >
+               <div ref={ref}>
             <motion.div transition={{ type: "spring", bounce: 0, }}>
               {/* Where Tab */}
+
+            
               {(initialTabOpen === "whereTab" || tabToTransit === 1) && (
             <motion.div
               layoutId="modal"
               key={"whereTab"}
+              exit={{ opacity: 0}}
               initial={
                 isInitialTabOpen
                   ? { scaleY: 0.5, scaleX: 0.1, opacity: 0 }
                   : false
               }
-              animate={{ scaleY: 1, scaleX: 1, opacity: 1 }}
+              animate={{ scaleY: 1, scaleX: 1, opacity: 1, }}
               transition={{ type: "spring", duration: 0.5, ease: "easeInOut", bounce: 0 }}
               className="bg-white origin-top border rounded-2xl shadow-md w-96 h-96 absolute left-4 flex flex-col"
             >
@@ -278,8 +286,12 @@ const handleCloseModal = () => {
               </div>
             </motion.div>
           )}
+             
 
-              {/* Check In Tab */}
+
+
+             
+                              {/* Check In Tab */}
               {(initialTabOpen === "checkInTab" || tabToTransit === 2) && (
                 <motion.div
                   layoutId="modal"
@@ -305,8 +317,9 @@ const handleCloseModal = () => {
 
                 </motion.div>
               )}
+       
 
-              {/* Check Out Tab */}
+                              {/* Check Out Tab */}
               {(initialTabOpen === "checkOutTab" || tabToTransit === 3) && (
                 <motion.div
                   layoutId="modal"
@@ -331,8 +344,11 @@ const handleCloseModal = () => {
                     />
                 </motion.div>
               )}
+    
 
-              {/* Guest Tab */}
+
+              
+                              {/* Guest Tab */}
               {(initialTabOpen === "guestTab" || tabToTransit === 4) && (
                 <motion.div
                   layoutId="modal"
@@ -405,10 +421,14 @@ const handleCloseModal = () => {
                 </div>
                 </motion.div>
               )}
+            
+
             </motion.div>
           </div>
         </AnimatePresence>
-      </div>
+     
+       
+      </motion.div>
     </>
   );
 }
