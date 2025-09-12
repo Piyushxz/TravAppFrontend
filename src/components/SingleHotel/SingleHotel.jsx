@@ -5,6 +5,7 @@ import { Navbar } from "../Navbar/Navbar";
 import { HotelImages } from "../HotelImages/HotelImages";
 import { HotelDetails } from "../HotelDetails/HotelDetails";
 import { FinalPrice } from "../FinalPrice/FinalPrice";
+import NewNavbar from "../NewNavbar/NewNavbar";
 
 export const SingleHotel = () => {
   const { id } = useParams();
@@ -25,9 +26,9 @@ export const SingleHotel = () => {
 
   return (
     <>
-      <Navbar />
-      <main className="single-hotel-page p-4 md:p-8 font-manrope tracking-tight">
-        <p className="hotel-name-address text-xl md:text-2xl pb-2">
+      <NewNavbar />
+      <main className="single-hotel-page p-4 md:p-8 font-manrope tracking-tight ">
+        <p className="hotel-name-address text-xl md:text-2xl pb-2 mt-20 font-manrope tracking-tight">
           {city}, {state}
         </p>
         <HotelImages singleHotel={singleHotel} />

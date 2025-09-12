@@ -50,7 +50,7 @@ export const HotelCard = ({ hotel }) => {
                                 <span className="ml-1">{rating}</span>
                             </span>
                         </div>
-                        <p className="text-sm font-normal py-1 truncate font-manrope ">{name}</p>
+                        <p className="text-sm font-normal py-1 truncate font-manrope tracking-tight ">{name}</p>
                     </div>
                     <p className="text-sm text-gray-700 mt-2">
                         <span className="font-bold font-manrope tracking-tighter">Rs. {price}</span> per night

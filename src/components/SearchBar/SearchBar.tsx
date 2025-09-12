@@ -16,7 +16,6 @@ export function SearchBar() {
   const [isAddGuestsModalOpen, setIsAddGuestsModalOpen] = useState(false);
   const [isInitialTabOpen, setIsInitialTabOpen] = useState(false);
   const [initialTabOpen, setInitialTabOpen] = useState(null);
-  const [tabToTransit, setTabToTransit] = useState(null);
   const [activeTab, setActiveTab] = useState(null); // New state for active tab
   const modalRef = useRef(null);
   const [ref, { width, height }] = useMeasure();
@@ -25,6 +24,9 @@ export function SearchBar() {
   const [date, setDate] = React.useState<Date | undefined>(
     new Date(2025, 5, 12)
   )
+  const [adultCount, setAdultCount] = useState(1);
+  const [childrenCount, setChildrenCount] = useState(0);
+  const [infantCount, setInfantCount] = useState(0);
 
   const { hotelCategory } = useCategory() as any ;
   const [hotels, setHotels] = useState([]);
@@ -53,10 +55,26 @@ export function SearchBar() {
     });
 };
 
-const handleGuestChange = (e) => {
+const handleGuestChange = (type, increment) => {
+    let newAdultCount = adultCount;
+    let newChildrenCount = childrenCount;
+    let newInfantCount = infantCount;
+    
+    if (type === 'adults') {
+        newAdultCount = increment ? adultCount + 1 : Math.max(1, adultCount - 1);
+        setAdultCount(newAdultCount);
+    } else if (type === 'children') {
+        newChildrenCount = increment ? childrenCount + 1 : Math.max(0, childrenCount - 1);
+        setChildrenCount(newChildrenCount);
+    } else if (type === 'infants') {
+        newInfantCount = increment ? infantCount + 1 : Math.max(0, infantCount - 1);
+        setInfantCount(newInfantCount);
+    }
+    
+    const totalGuests = newAdultCount + newChildrenCount + newInfantCount;
     dateDispatch({
         type: "GUESTS",
-        payload: e.target.value
+        payload: totalGuests
     });
 };
 
@@ -65,6 +83,8 @@ const handleSearchResultClick = (address) => {
         type: "DESTINATION",
         payload: address
     });
+    // Move to next tab (Check In)
+    setActiveTab("checkInTab");
 };
 
 const destinationOptions = hotels.filter(({ address, city, state, country }) =>
@@ -114,7 +134,6 @@ const handleCloseModal = () => {
       ) {
         // Reset state to close modal
         setInitialTabOpen(null);
-        setTabToTransit(null);
         setActiveTab(null); // Reset active tab
       }
     };
@@ -130,19 +149,17 @@ const handleCloseModal = () => {
     if (!initialTabOpen) {
       setInitialTabOpen(tabName);
       setIsInitialTabOpen(true);
-    } else {
-      setTabToTransit(tabNumber);
     }
   };
 
   return (
     <>
-      <div onClick={()=>{}}  ref={searchbarRef} className={`relative font-manrope tracking-tight border w-[700px] h-14 rounded-full bg-white shadow-xl flex items-center justify-between `}>
+      <div onClick={()=>{}}  ref={searchbarRef} className={`relative font-manrope tracking-tight border w-[700px] h-14 rounded-full bg-white shadow-xl flex items-center justify-between overflow-hidden`}>
         <div className={`border flex items-center justify-between w-full relative ${activeTab ? "bg-gray-200 ": " bg-white "} rounded-full transition-colors ease-in-out duration-400`}>
           {/* Where */}
           <div className="relative">
             <div
-              className={`${activeTab ? " hover:bg-gray-300 " : " hover:bg-gray-100 "} rounded-full cursor-pointer py-2.5 pr-24 pl-4 relative`}
+              className={`${activeTab ? " hover:bg-gray-300 " : " hover:bg-gray-100 "} rounded-full cursor-pointer py-2.5 px-4 relative`}
               onClick={() => handleTabClick("whereTab", 1)}
             >
               {activeTab === "whereTab" && (
@@ -152,9 +169,11 @@ const handleCloseModal = () => {
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
-              <div className="relative z-10">
+              <div className="relative z-10 w-32">
                 <h5 className="text-xs tracking-tight text-black">Where</h5>
-                <h5 className="text-sm tracking-tight text-gray-400">Search Destinations</h5>
+                <h5 className="text-sm tracking-tight text-gray-400 truncate">
+                  {destination || "Search Destinations"}
+                </h5>
               </div>
             </div>
           </div>
@@ -174,9 +193,11 @@ const handleCloseModal = () => {
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
-              <div className="relative z-10">
+              <div className="relative z-10 w-24">
                 <h5 className="text-xs tracking-tight text-black">Check In</h5>
-                <h5 className="text-sm tracking-tight text-gray-400">Add Dates</h5>
+                <h5 className="text-sm tracking-tight text-gray-400 truncate">
+                  {checkinDate ? checkinDate.toLocaleDateString("en-US", { day: "numeric", month: "short" }) : "Add Dates"}
+                </h5>
               </div>
             </div>
           </div>
@@ -196,9 +217,11 @@ const handleCloseModal = () => {
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
-              <div className="relative z-10">
+              <div className="relative z-10 w-24">
                 <h5 className="text-xs tracking-tight text-black">Check Out</h5>
-                <h5 className="text-sm tracking-tight text-gray-400">Add Dates</h5>
+                <h5 className="text-sm tracking-tight text-gray-400 truncate">
+                  {checkOutDate ? checkOutDate.toLocaleDateString("en-US", { day: "numeric", month: "short" }) : "Add Dates"}
+                </h5>
               </div>
             </div>
           </div>
@@ -218,14 +241,18 @@ const handleCloseModal = () => {
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
-              <div className={`mr-20 relative z-10`}>
+              <div className={`mr-20 relative z-10 w-24`}>
                 <h5 className="text-xs tracking-tight text-black">Who</h5>
-                <h5 className="text-sm tracking-tight text-gray-400">Add guests</h5>
+                <h5 className="text-sm tracking-tight text-gray-400 truncate">
+                  {guests ? `${guests} guests` : "Add guests"}
+                </h5>
               </div>
 
-              <div className="p-2 bg-orange-400 rounded-full cursor-pointer mr-2 relative z-10">
+              <motion.div 
+              layout
+              className="p-2 bg-orange-400 rounded-full cursor-pointer mr-2 relative z-10 flex">
                 <SearchIcon className="text-white" />
-              </div>
+        </motion.div>
             </div>
           </div>
         </div>
@@ -237,14 +264,16 @@ const handleCloseModal = () => {
             layout
             className="absolute z-50 top-[90px]" ref={modalRef}>
         
-        <AnimatePresence mode="popLayout"
-        >
+        <AnimatePresence mode="wait">
                <div ref={ref}>
-            <motion.div transition={{ type: "spring", bounce: 0, }}>
+            <motion.div 
+              layout
+              transition={{ type: "spring", bounce: 0.1, duration: 0.4 }}
+            >
               {/* Where Tab */}
 
             
-              {(initialTabOpen === "whereTab" || tabToTransit === 1) && (
+              {activeTab === "whereTab" && (
             <motion.div
               layoutId="modal"
               key={"whereTab"}
@@ -260,7 +289,11 @@ const handleCloseModal = () => {
             >
               <div className="w-full font-manrope tracking-tight overflow-y-auto flex-1 px-2 py-2 ">
               {hotels.map((hotel, index) => (
-              <div key={index} className="flex gap-2 mx-2 my-2 p-2 rounded-md hover:bg-black/10 transition-colors ease-in">
+              <div 
+                key={index} 
+                onClick={() => handleSearchResultClick(`${hotel.city}, ${hotel.country}`)}
+                className="flex gap-2 mx-2 my-2 p-2 rounded-md hover:bg-black/10 transition-colors ease-in cursor-pointer"
+              >
                 <div className="min-w-[110px] h-[70px] rounded-md overflow-hidden flex-shrink-0 bg-gray-100 flex items-center justify-center relative">
                   <img
                     src={hotel.image}
@@ -292,7 +325,7 @@ const handleCloseModal = () => {
 
              
                               {/* Check In Tab */}
-              {(initialTabOpen === "checkInTab" || tabToTransit === 2) && (
+              {activeTab === "checkInTab" && (
                 <motion.div
                   layoutId="modal"
                   key={"checkInTab"}
@@ -307,10 +340,18 @@ const handleCloseModal = () => {
                 >
                 <Calendar
                       mode="single"
-                      defaultMonth={date}
+                      defaultMonth={checkinDate || date}
                       numberOfMonths={2}
-                      selected={date}
-                      onSelect={setDate}
+                      selected={checkinDate || date}
+                      onSelect={(selectedDate) => {
+                        setDate(selectedDate);
+                        if (selectedDate) {
+                          dateDispatch({
+                            type: "CHECK_IN",
+                            payload: selectedDate
+                          });
+                        }
+                      }}
                       disabled={{ before: new Date() }}
                       className="rounded-lg font-manrope tracking-tight border shadow-sm w-[100%] h-[100%] pb-6"
                     />
@@ -320,7 +361,7 @@ const handleCloseModal = () => {
        
 
                               {/* Check Out Tab */}
-              {(initialTabOpen === "checkOutTab" || tabToTransit === 3) && (
+              {activeTab === "checkOutTab" && (
                 <motion.div
                   layoutId="modal"
                   key={"checkOutTab"}
@@ -335,10 +376,18 @@ const handleCloseModal = () => {
                 >
                 <Calendar
                       mode="single"
-                      defaultMonth={date}
+                      defaultMonth={checkOutDate || date}
                       numberOfMonths={2}
-                      selected={date}
-                      onSelect={setDate}
+                      selected={checkOutDate || date}
+                      onSelect={(selectedDate) => {
+                        setDate(selectedDate);
+                        if (selectedDate) {
+                          dateDispatch({
+                            type: "CHECK_OUT",
+                            payload: selectedDate
+                          });
+                        }
+                      }}
                       disabled={{ before: new Date() }}
                       className="rounded-lg font-manrope tracking-tight border shadow-sm w-[100%] h-[100%] pb-6"
                     />
@@ -349,7 +398,7 @@ const handleCloseModal = () => {
 
               
                               {/* Guest Tab */}
-              {(initialTabOpen === "guestTab" || tabToTransit === 4) && (
+              {activeTab === "guestTab" && (
                 <motion.div
                   layoutId="modal"
                   key={"guestTab"}
@@ -370,13 +419,19 @@ const handleCloseModal = () => {
                       <h5 className="text-sm font-manrope tracking-tight text-gray-600">Age 13 or Above</h5>
                     </div>
                     <div className="flex items-center ">
-                      <button className="rounded-full p-2 border border-gray-300 hover:bg-gray-50 transition-colors">
+                      <button 
+                        onClick={() => handleGuestChange('adults', false)}
+                        className="rounded-full p-2 border border-gray-300 hover:bg-gray-50 transition-colors"
+                      >
                         <MinusIcon className="size-4 text-gray-600"/>
                       </button>
                       <span className="text-lg font-semibold text-black min-w-[2rem] text-center">
-                        {1}
+                        {adultCount}
                       </span>
-                      <button className="rounded-full p-2 border border-gray-300 hover:bg-gray-50 transition-colors">
+                      <button 
+                        onClick={() => handleGuestChange('adults', true)}
+                        className="rounded-full p-2 border border-gray-300 hover:bg-gray-50 transition-colors"
+                      >
                         <PlusIcon className="size-4 text-gray-600"/>
                       </button>
                     </div>
@@ -389,13 +444,19 @@ const handleCloseModal = () => {
                       <h5 className="text-sm font-manrope tracking-tight text-gray-600">Age 2-12</h5>
                     </div>
                     <div className="flex items-center ">
-                      <button className="rounded-full p-2 border border-gray-300 hover:bg-gray-50 transition-colors">
+                      <button 
+                        onClick={() => handleGuestChange('children', false)}
+                        className="rounded-full p-2 border border-gray-300 hover:bg-gray-50 transition-colors"
+                      >
                         <MinusIcon className="size-4 text-gray-600"/>
                       </button>
                       <span className="text-lg font-semibold text-black min-w-[2rem] text-center">
-                        {1}
+                        {childrenCount}
                       </span>
-                      <button className="rounded-full p-2 border border-gray-300 hover:bg-gray-50 transition-colors">
+                      <button 
+                        onClick={() => handleGuestChange('children', true)}
+                        className="rounded-full p-2 border border-gray-300 hover:bg-gray-50 transition-colors"
+                      >
                         <PlusIcon className="size-4 text-gray-600"/>
                       </button>
                     </div>
@@ -407,13 +468,19 @@ const handleCloseModal = () => {
                       <h5 className="text-sm font-manrope tracking-tight text-gray-600">Age 0-2</h5>
                     </div>
                     <div className="flex items-center ">
-                      <button className="rounded-full p-2 border border-gray-300 hover:bg-gray-50 transition-colors">
+                      <button 
+                        onClick={() => handleGuestChange('infants', false)}
+                        className="rounded-full p-2 border border-gray-300 hover:bg-gray-50 transition-colors"
+                      >
                         <MinusIcon className="size-4 text-gray-600"/>
                       </button>
                       <span className="text-lg font-semibold text-black min-w-[2rem] text-center">
-                        {1}
+                        {infantCount}
                       </span>
-                      <button className="rounded-full p-2 border border-gray-300 hover:bg-gray-50 transition-colors">
+                      <button 
+                        onClick={() => handleGuestChange('infants', true)}
+                        className="rounded-full p-2 border border-gray-300 hover:bg-gray-50 transition-colors"
+                      >
                         <PlusIcon className="size-4 text-gray-600"/>
                       </button>
                     </div>

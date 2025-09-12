@@ -19,7 +19,7 @@ export const Navbar = () => {
       <h1 className="text-xl md:text-2xl font-manrope tracking-tigther font-bold">
         <a className="text-primary" href="/">TravO</a>
       </h1>
-
+{/* 
       <div className="flex-grow flex justify-center">
         <div className="w-full max-w-md">
           <div
@@ -38,7 +38,7 @@ export const Navbar = () => {
             <span className="material-icons-outlined text-gray-500 bg-primary text-white p-1 md:p-2 rounded-full text-xs md:text-base">search</span>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <nav className="flex items-center cursor-pointer" onClick={handleNavClick}>
         <div className="flex items-center">
