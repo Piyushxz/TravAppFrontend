@@ -1,18 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Search, Compass, Heart, User, CrossIcon, Cross, X, ImageIcon, SearchIcon, ChevronDown, MinusIcon, PlusIcon } from 'lucide-react';
 import {motion} from "motion/react"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useCategory } from '../../context/category-context';
 import { useDate } from '../../context/date-context';
 import { useAuth } from '../../context/auth-context';
 import { Calendar } from '../Calender';
+import { UserProfile } from '../UserProfile/UserProfile';
 
 const MobileNavbar = () => {
   const [isMobileSearchModalOpen, setIsMobileSearchModalOpen] = useState(false);
   const [isHotelModalOpen,setIsHotelModalOpen] = useState(true)
   const [isDateModalOpen,setIsDateModalOpen] = useState(false)
   const [isGuestModalOpen,setIsGUestModalOpen] = useState(false)
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const [activeTab, setActiveTab] = useState('explore');
   const [dateRange, setDateRange] = useState({
     from: null,
     to: null,
@@ -24,9 +28,10 @@ const MobileNavbar = () => {
   const [infantCount, setInfantCount] = useState(0);
   
   const navigate = useNavigate();
+  const location = useLocation();
   const { hotelCategory } = useCategory();
   const { dateDispatch, destination, checkOutDate, checkinDate, guests } = useDate();
-  const { authDispatch } = useAuth();
+  const { authDispatch, accessToken } = useAuth();
     
         useEffect(() => {
             (async () => {
@@ -94,16 +99,55 @@ const MobileNavbar = () => {
     }
   };
 
-  // Handle auth modal
-  const handleAuthClick = () => {
-    authDispatch({ type: "SHOW_AUTH_MODAL" });
+  // Handle wishlist click
+  const handleWishlistClick = () => {
+    if (accessToken) {
+      setActiveTab('wishlist');
+      navigate('/wishlist');
+    } else {
+      authDispatch({ type: "SHOW_AUTH_MODAL" });
+    }
   };
 
+  // Handle explore click
+  const handleExploreClick = () => {
+    setActiveTab('explore');
+    navigate('/search');
+  };
+
+  // Handle auth modal
+  const handleAuthClick = () => {
+    if (accessToken) {
+      // User is logged in, show profile modal
+      setActiveTab('profile');
+      setIsProfileOpen(true);
+    } else {
+      // User is not logged in, show auth modal
+      authDispatch({ type: "SHOW_AUTH_MODAL" });
+    }
+  };
+
+  // Set active tab based on current location
+  useEffect(() => {
+    const path = location.pathname;
+    if (path === '/') {
+      setActiveTab('explore');
+    } else if (path === '/wishlist') {
+      setActiveTab('wishlist');
+    } else {
+      setActiveTab('explore'); // Default to explore for other routes
+    }
+  }, [location.pathname]);
+
   useEffect(()=>{
+    if (isMobileSearchModalOpen) {
+      setHasAnimated(false);
+    }
     return()=>{
       setIsHotelModalOpen(true)
       setIsDateModalOpen(false)
       setIsGUestModalOpen(false)
+      setHasAnimated(false);
     }
   },[isMobileSearchModalOpen])
 
@@ -123,9 +167,10 @@ const MobileNavbar = () => {
         {
     isHotelModalOpen ?
         <motion.div
-  initial={{ y: '-80px', opacity: 0 }}
+  initial={hasAnimated ? false : { y: '-80px', opacity: 0 }}
   animate={{ y: 0, opacity: 1 }}
   transition={{ duration: 0.5, ease: "easeIn", type: 'spring', bounce: 0 }}
+  onAnimationComplete={() => setHasAnimated(true)}
   className='w-full h-[50vh] rounded-2xl border shadow-lg overflow-hidden flex flex-col'
 >
  
@@ -198,7 +243,7 @@ const MobileNavbar = () => {
 <div onClick={()=>{setIsHotelModalOpen(true)
   setIsDateModalOpen(false)
   setIsGUestModalOpen(false)
-}} className='w-full h-[10vh] rounded-2xl border shadow-lg flex justify-between py-5 px-3'>
+}} className='w-full h-[10vh] rounded-2xl border shadow-lg flex justify-between py-5 px-3 cursor-pointer hover:bg-gray-50 transition-colors'>
   <h3 className="text-sm text-black/30 tracking-tighter font-semibold">Where</h3>
   <Search className="w-5 h-5 text-gray-500 mr-3" />
 </div>
@@ -224,7 +269,7 @@ const MobileNavbar = () => {
         <motion.div onClick={()=>{setIsHotelModalOpen(false)
           setIsDateModalOpen(true)
           setIsGUestModalOpen(false)
-        }} initial={{y:'-80px',opacity:0}} animate={{y:0,opacity:1}} transition={{duration:0.5,ease:"easeIn",delay:0.15,type:'spring',bounce:0}} className='w-full h-[10vh] rounded-2xl border shadow-lg flex justify-between py-5 px-3'>
+        }} initial={hasAnimated ? false : {y:'-80px',opacity:0}} animate={{y:0,opacity:1}} transition={{duration:0.5,ease:"easeIn",delay:0.15,type:'spring',bounce:0}} className='w-full h-[10vh] rounded-2xl border shadow-lg flex justify-between py-5 px-3 cursor-pointer hover:bg-gray-50 transition-colors'>
         <h3 className='text-sm text-black/30 tracking-tighter font-semibold'>When</h3>
         <h3 className='text-sm text-black tracking-tighter '>Add Dates</h3>
         </motion.div>
@@ -314,7 +359,7 @@ const MobileNavbar = () => {
                   <motion.div  onClick={()=>{setIsHotelModalOpen(false)
                     setIsDateModalOpen(false)
                     setIsGUestModalOpen(true)
-                  }}  initial={{y:'-80px',opacity:0}} animate={{y:0,opacity:1}} transition={{duration:0.5,ease:"easeIn",delay:0.25,type:'spring',bounce:0}}  className='w-full h-[10vh] rounded-2xl border shadow-lg flex justify-between py-6 px-3'>
+                  }}  initial={hasAnimated ? false : {y:'-80px',opacity:0}} animate={{y:0,opacity:1}} transition={{duration:0.5,ease:"easeIn",delay:0.25,type:'spring',bounce:0}}  className='w-full h-[10vh] rounded-2xl border shadow-lg flex justify-between py-6 px-3 cursor-pointer hover:bg-gray-50 transition-colors'>
                   <h3 className=' text-sm text-black/30 tracking-tighter font-semibold'>Who</h3>
                   <h3 className=' text-sm text-black tracking-tighter '>Add Guests</h3>
                   </motion.div>
@@ -325,7 +370,7 @@ const MobileNavbar = () => {
         <div className='flex justify-end mt-10'>
           <motion.button  
             onClick={handleSearchClick}
-            initial={{y:'80px',opacity:0}} 
+            initial={hasAnimated ? false : {y:'80px',opacity:0}} 
             animate={{y:0,opacity:1}} 
             transition={{duration:0.5,ease:"easeIn",delay:0.3,type:'spring',bounce:0}} 
             className='py-2 px-4 shadow-lg rounded-md border flex !bg-orange-400 gap-2 items-center'
@@ -352,29 +397,49 @@ const MobileNavbar = () => {
           <div className="border-t border-gray-200 bg-white bottom-0 left-0 z-10 w-full fixed">
             <div className="flex justify-around">
               {/* Explore */}
-              <button className="flex flex-col items-center py-2 px-4 hover:bg-gray-50 rounded-lg transition-colors">
-                <Compass className="w-6 h-6 text-gray-600 mb-1" />
-                <span className="text-xs text-gray-600">Explore</span>
+              <button 
+                onClick={handleExploreClick}
+                className={`flex flex-col items-center py-2 px-4 hover:bg-gray-50 rounded-lg transition-colors ${
+                  activeTab === 'explore' ? 'text-orange-500' : 'text-gray-600'
+                }`}
+              >
+                <Compass className={`w-6 h-6 mb-1 ${activeTab === 'explore' ? 'text-orange-500' : 'text-gray-600'}`} />
+                <span className={`text-xs ${activeTab === 'explore' ? 'text-orange-500' : 'text-gray-600'}`}>Explore</span>
               </button>
 
               {/* Wishlist */}
-              <button className="flex flex-col items-center py-2 px-4 hover:bg-gray-50 rounded-lg transition-colors">
-                <Heart className="w-6 h-6 text-gray-600 mb-1" />
-                <span className="text-xs text-gray-600">Wishlist</span>
+              <button 
+                onClick={handleWishlistClick}
+                className={`flex flex-col items-center py-2 px-4 hover:bg-gray-50 rounded-lg transition-colors ${
+                  activeTab === 'wishlist' ? 'text-orange-500' : 'text-gray-600'
+                }`}
+              >
+                <Heart className={`w-6 h-6 mb-1 ${activeTab === 'wishlist' ? 'text-orange-500' : 'text-gray-600'}`} />
+                <span className={`text-xs ${activeTab === 'wishlist' ? 'text-orange-500' : 'text-gray-600'}`}>Wishlist</span>
               </button>
 
-              {/* Login */}
+              {/* Login/Profile */}
               <button 
                 onClick={handleAuthClick}
-                className="flex flex-col items-center py-2 px-4 hover:bg-gray-50 rounded-lg transition-colors"
+                className={`flex flex-col items-center py-2 px-4 hover:bg-gray-50 rounded-lg transition-colors ${
+                  activeTab === 'profile' ? 'text-orange-500' : 'text-gray-600'
+                }`}
               >
-                <User className="w-6 h-6 text-gray-600 mb-1" />
-                <span className="text-xs text-gray-600">Login</span>
+                <User className={`w-6 h-6 mb-1 ${activeTab === 'profile' ? 'text-orange-500' : 'text-gray-600'}`} />
+                <span className={`text-xs ${activeTab === 'profile' ? 'text-orange-500' : 'text-gray-600'}`}>
+                  {accessToken ? 'Profile' : 'Login'}
+                </span>
               </button>
             </div>
           </div>
         </div>
       )}
+
+      {/* User Profile Modal */}
+      <UserProfile 
+        isOpen={isProfileOpen} 
+        onClose={() => setIsProfileOpen(false)} 
+      />
     </>
   );
 };

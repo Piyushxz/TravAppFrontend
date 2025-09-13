@@ -69,6 +69,19 @@ export const authReducer = (state,{type,payload}) =>{
                             ...state,
                             username:payload
                         }
+                    
+                    case "LOGOUT":
+                        return{
+                            ...state,
+                            accessToken:"",
+                            username:"",
+                            name:"",
+                            number:"",
+                            email:"",
+                            password:"",
+                            confirmPassword:"",
+                            isAuthModalOpen: false
+                        }
     default:
         return state;
     }

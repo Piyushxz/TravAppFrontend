@@ -19,5 +19,5 @@ export const DateSelector =({checkInType})=>{
     })
   }
 
-    return <DatePicker onFocus={handleDateFocus} selected={checkInType  === "in" ? checkinDate : checkOutDate} onChange={date=>handleDateChange(date)} className="search-dest input" dateFormat = "dd/mm/yyyy" placeholderText="Add dates" closeOnScroll={true}/>
+    return <DatePicker  onFocus={handleDateFocus} selected={checkInType  === "in" ? checkinDate : checkOutDate} onChange={date=>handleDateChange(date)} className="search-dest input" dateFormat = "dd/mm/yyyy" placeholderText="Add dates" closeOnScroll={true}/>
 }

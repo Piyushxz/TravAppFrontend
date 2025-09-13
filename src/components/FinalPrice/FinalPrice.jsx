@@ -19,10 +19,10 @@ export const FinalPrice = ({ singleHotel }) => {
     }
 
     return (
-        <div className="self-start bg-background p-6 w-full max-w-md mt-8 shadow rounded">
+        <div className="self-start bg-background px-6 w-full max-w-lg mt-8 shadow rounded">
             <div className="flex justify-between items-center">
                 <p>
-                    <span className="font-bold text-lg">Rs. {price}</span> per night
+                    <span className="font-bold  font-manrope tracking-tight text-lg">Rs. {price}</span> per night
                 </p>
                 <span className="flex items-center">
                     <span className="material-icons-outlined text-yellow-500">star</span>
@@ -30,18 +30,18 @@ export const FinalPrice = ({ singleHotel }) => {
                 </span>
             </div>
             <div className="flex flex-col mt-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="flex flex-col">
-                        <label className="label">Check-in</label>
-                        <DateSelector checkInType="in" />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                    <div className="flex flex-col ">
+                        <label className="label font-manrope tracking-tight">Check-in</label>
+                        <DateSelector  checkInType="in" />
                     </div>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col font-manrope tracking-tight ">
                         <label className="label">Check-out</label>
                         <DateSelector checkInType="out" />
                     </div>
                 </div>
                 <div className="border border-container-border-color p-2 mt-4">
-                    <p>Guests</p>
+                    <p className="font-manrope tracking-tight">Guests</p>
                     {
                         guests <= 0 ?
                             <input
@@ -60,21 +60,21 @@ export const FinalPrice = ({ singleHotel }) => {
                 <button
                     disabled={checkinDate && checkOutDate && guests > 0 ? false : true}
                     onClick={handleReserveClick}
-                    className={`w-full p-4 mt-4 bg-primary text-white rounded ${checkinDate && checkOutDate && guests > 0 ? "cursor-pointer" : "opacity-50 cursor-not-allowed"}`}
+                    className={`font-manrope tracking-tight w-full p-4 mt-4 bg-primary text-white rounded ${checkinDate && checkOutDate && guests > 0 ? "cursor-pointer" : "opacity-50 cursor-not-allowed"}`}
                 >
                     Reserve
                 </button>
             </div>
             <div className="flex flex-col mt-4">
-                <div className="flex justify-between p-2">
+                <div className="font-manrope tracking-tight flex justify-between p-2">
                     <span>Rs. {price} x 2 nights</span>
                     <span>Rs {price * 2}</span>
                 </div>
-                <div className="flex justify-between p-2">
+                <div className="font-manrope tracking-tight flex justify-between p-2">
                     <span>Service Fee</span>
                     <span>Rs 200</span>
                 </div>
-                <div className="flex justify-between p-2 border-t border-container-border-color">
+                <div className="font-manrope tracking-tight flex justify-between p-2 border-t border-container-border-color">
                     <span>Total</span>
                     <span>Rs {price * 2 + 200}</span>
                 </div>
